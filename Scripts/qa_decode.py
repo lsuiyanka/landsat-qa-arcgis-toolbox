@@ -67,7 +67,8 @@ def build_attr_table(raster_in, sensor, band):
             try:
                 if band == "radsat_qa":  # radsat_qa is sensor-agnostic
                     row[1] = qa_values[band][row[0]]
-                elif band == "pixel_qa" and row[0] >= 1024: # terrain occlusion
+                elif sens == 'L8' and band == "pixel_qa" \
+                        and row[0] >= 1024:  # L8 terrain occlusion
                     row[1] = 'Terrain occlusion'
                 else:
                     row[1] = qa_values[band][sens][row[0]]
