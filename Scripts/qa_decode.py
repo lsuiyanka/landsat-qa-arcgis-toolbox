@@ -13,11 +13,12 @@ Author:         Steve Foga
 Affiliation:    SGT Inc., contractor to USGS EROS Center
 Contact:        steven.foga.ctr@usgs.gov
 Created:        15 May 2017
-Version:        1.0
+Version:        1.1
 
 Changelog
 1.0     15 May 2017     Original development with Python 2.7.10 and
                         ArcGIS 10.4.1.
+1.1     09 Aug 2017     Update to handle any L8 pixel_qa terrain occlusion.
 """
 import sys
 import os
@@ -66,6 +67,8 @@ def build_attr_table(raster_in, sensor, band):
             try:
                 if band == "radsat_qa":  # radsat_qa is sensor-agnostic
                     row[1] = qa_values[band][row[0]]
+                elif band == "pixel_qa" and row[0] >= 1024: # terrain occlusion
+                    row[1] = 'Terrain occlusion'
                 else:
                     row[1] = qa_values[band][sens][row[0]]
 

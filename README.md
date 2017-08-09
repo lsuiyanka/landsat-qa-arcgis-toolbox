@@ -7,6 +7,16 @@ The instructions below detail how to download and install the tools, as well as 
 
 **Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.**
 
+
+## Version 1.1 Release Notes
+Release Date: August 2017
+
+See git tag [1.1]
+
+### Changes
+* Update to qa_decode.py to handle all terrain occlusion bits in L8 pixel_qa band.
+
+
 ## Download
 The Landsat QA ArcGIS Toolbox can be downloaded from [here](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/archive/master.zip).
 
