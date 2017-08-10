@@ -44,8 +44,7 @@ qa_values = {
                 928: "Cloud, medium conf. cloud, high conf. cirrus",
                 944: "High conf. cirrus, medium conf. cloud, cloud, snow/ice",
                 992: "Cloud, high conf. cloud, high conf. cirrus",
-                1024: "Terrain occlusion",
-                1344: "Terrain occlusion"
+                1024: "Terrain occlusion"
             }
         },
         "radsat_qa": {
