@@ -8,6 +8,10 @@ import qa_decode_tool
 reload(qa_decode_tool)
 from qa_decode_tool import DecodeQA
 
+import extract_bands_tool
+reload(extract_bands_tool)
+from extract_bands_tool import ExtractBands
+
 class Toolbox(object):
     def __init__(self):
         """Define the toolbox (the name of the toolbox is the name of the
@@ -16,4 +20,4 @@ class Toolbox(object):
         self.alias = "Landsat QA ArcGIS Toolbox"
 
         # List of tool classes associated with this toolbox
-        self.tools = [DecodeQA]
+        self.tools = [DecodeQA, ExtractBands]

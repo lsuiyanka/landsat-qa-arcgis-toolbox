@@ -12,28 +12,62 @@ authorized or unauthorized use.
 Author:         Steve Foga
 Affiliation:    SGT Inc., contractor to USGS EROS Center
 Contact:        steven.foga.ctr@usgs.gov
-Created:        15 May 2017
-Version:        1.2
+Created:        20 June 2017
+Version:        2.0
 
 Changelog
-1.0     15 May 2017     Original development with Python 2.7.10 and
-                        ArcGIS 10.4.1.
-1.1     09 Aug 2017     Update to handle any L8 pixel_qa terrain occlusion.
-1.2     21 Aug 2017     Added ability to unpack bits to individual files.
+1.0     15 May 2017     DNE in this release.
+2.0     20 Jun 2017     Original development.
 """
+import sys
 import arcpy
-import qa_decode
+import extract_bands
+import lookup_dict
 
 
-class DecodeQA(object):
+class ExtractBands(object):
     def __init__(self):
         """
         Define the tool (tool name is the name of the class).
         """
-        self.label = "Decode QA"
+        #import lookup_dict
+        #self.bit_flags = lookup_dict.bit_flags
+
+        self.label = "Extract QA Bands"
         self.description = ""
         self.params = arcpy.GetParameterInfo()
-        self.canRunInBackground = False
+        self.canRunInBackground = True
+
+    def get_sensor(self, input_sen):
+        """
+        Convert input (display) sensor name to internal sensor name.
+
+        :param input_sen: <str> Input sensor name
+        :return: <str>
+        """
+        if input_sen == "Landsat 8":
+            return "L8"
+        elif input_sen == "Landsat 4-5, 7":
+            return "L47"
+        else:
+            sys.exit("{0} is not a valid input sensor.".format(input_sen))
+
+    def get_bit_keys(self, input_band, input_sensor, input_dict):
+        """
+        Return list of keys from dictionary, sorted by value.
+
+        :param input_band: <str> Name of input band.
+        :param input_sensor: <str> Name of input sensor.
+        :param input_dict: <dict> Key:value pairs.
+        :return: <list> Keys sorted by value.
+        """
+        # convert input_sensor to input_dict's designation
+        in_sen = self.get_sensor(input_sensor)
+
+        # get specific key:values
+        kv_pairs = input_dict[input_band][in_sen]
+
+        return sorted(kv_pairs, key=kv_pairs.get)
 
     def getParameterInfo(self):
         """
@@ -70,11 +104,35 @@ class DecodeQA(object):
         param2.filter.type = "ValueList"
         param2.filter.list = ['BQA',
                               'pixel_qa',
-                              'radsat_qa',
                               'sr_aerosol',
                               'sr_cloud_qa']
 
-        params = [param0, param1, param2]
+        # Fourth parameter (target QA layers, now empty)
+        param3 = arcpy.Parameter(
+            displayName="QA Layers",
+            name="qa_layers",
+            datatype="GPString",
+            parameterType="Required",
+            direction="Input",
+            multiValue=True)
+
+        # Fifth parameter (combine y/n)
+        param4 = arcpy.Parameter(
+            displayName="Combine",
+            name="combine_layers",
+            datatype="GPBoolean",
+            parameterType="Optional",
+            direction="Input")
+
+        # Sixth parameter (output path)
+        param5 = arcpy.Parameter(
+            displayName="Output Raster Path and Basename",
+            name="out_raster",
+            datatype="DEFile",
+            parameterType="Required",
+            direction="Output")
+
+        params = [param0, param1, param2, param3, param4, param5]
         return params
 
     def updateParameters(self, parameters):
@@ -84,6 +142,9 @@ class DecodeQA(object):
         :param parameters: <list> Input parameters
         :return:
         """
+        # read lookup dictionary
+        bit_flags = lookup_dict.bit_flags
+
         # Change sensor in drop-down
         if parameters[0].valueAsText and not parameters[1].altered:
             if [s for s in ['LE07', 'LT05', 'LT04'] if
@@ -99,13 +160,11 @@ class DecodeQA(object):
             if parameters[1].value == 'Landsat 8':
                 parameters[2].filter.list = ['BQA',
                                              'pixel_qa',
-                                             'radsat_qa',
                                              'sr_aerosol']
 
             elif parameters[1].value == 'Landsat 4-5, 7':
                 parameters[2].filter.list = ['BQA',
                                              'pixel_qa',
-                                             'radsat_qa',
                                              'sr_cloud_qa']
 
         # Change band in drop-down
@@ -116,15 +175,23 @@ class DecodeQA(object):
             elif [b for b in ['pixel_qa', 'PIXELQA'] if
                   b in parameters[0].valueAsText]:
                 parameters[2].value = 'pixel_qa'
-            elif [b for b in ['radsat_qa', 'RADSATQA'] if
-                  b in parameters[0].valueAsText]:
-                parameters[2].value = 'radsat_qa'
             elif [b for b in ['sr_aerosol', 'SRAEROSOLQA'] if
                   b in parameters[0].valueAsText]:
                 parameters[2].value = 'sr_aerosol'
             elif [b for b in ['sr_cloud_qa', 'SRCLOUDQA'] if
                   b in parameters[0].valueAsText]:
                 parameters[2].value = 'sr_cloud_qa'
+
+        # Populate QA Layers based upon band-sensor combination
+        if parameters[1].valueAsText and parameters[2].valueAsText:
+            parameters[3].enabled = True
+            bit_keys = self.get_bit_keys(parameters[2].value,
+                                         parameters[1].value,
+                                         bit_flags)
+            parameters[3].filter.list = bit_keys
+
+        else:
+            parameters[3].enabled = False
 
         return
 
@@ -145,8 +212,28 @@ class DecodeQA(object):
         :param messages:
         :return:
         """
-        raster = parameters[0].valueAsText
-        sensor = parameters[1].valueAsText
-        band = parameters[2].valueAsText
+        def parse_valstr(input_str):
+            """
+            Parse semicolon delimited string into a list, and sanitize.
 
-        qa_decode.build_attr_table(raster, sensor, band)
+            :param input_str: <str>
+            :return:
+            """
+            # split by semicolon
+            val_list = input_str.split(';')
+
+            # remove redundant quotes from each element, if applicable
+            val_list_noq = [v.replace("'", "") for v in val_list]
+
+            return val_list_noq
+
+        in_raster = parameters[0].valueAsText
+        sensor = self.get_sensor(parameters[1].valueAsText)
+        band = parameters[2].valueAsText
+        qa_layers = parse_valstr(parameters[3].valueAsText)
+        basename = parameters[5].valueAsText
+        combine = parameters[4].valueAsText
+
+        extract_bands.extract_bits_from_band(in_raster, sensor, band,
+                                             qa_layers, basename,
+                                             combine_layers=combine)
