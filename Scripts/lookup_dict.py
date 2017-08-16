@@ -61,6 +61,32 @@ bit_flags = {
         }
     },
 
+    "radsat_qa": {
+        "L47": {
+            "Fill": [0],
+            "Band 1 Data Saturation": [1],
+            "Band 2 Data Saturation": [2],
+            "Band 3 Data Saturation": [3],
+            "Band 4 Data Saturation": [4],
+            "Band 5 Data Saturation": [5],
+            "Band 6 Data Saturation": [6],
+            "Band 7 Data Saturation": [7]
+        },
+        "L8": {
+            "Fill": [0],
+            "Band 1 Data Saturation": [1],
+            "Band 2 Data Saturation": [2],
+            "Band 3 Data Saturation": [3],
+            "Band 4 Data Saturation": [4],
+            "Band 5 Data Saturation": [5],
+            "Band 6 Data Saturation": [6],
+            "Band 7 Data Saturation": [7],
+            "Band 9 Data Saturation": [9],
+            "Band 10 Data Saturation": [10],
+            "Band 11 Data Saturation": [11]
+        }
+    },
+
     "BQA": {
         "L47": {
             "Fill": [0],

@@ -73,9 +73,6 @@ def extract_bits_from_band(raster_in, sensor, band, output_bands, basename,
         arcpy.CopyRaster_management(out, out_raster,
                                     pixel_type="8_BIT_UNSIGNED")
 
-        # write raster to file
-        #out.save(out_raster)
-
     # verify Spatial Analyst licence is available
     class LicenseError(Exception):
         pass
@@ -108,7 +105,7 @@ def extract_bits_from_band(raster_in, sensor, band, output_bands, basename,
     input_ext = os.path.splitext(raster_in)[-1]
 
     # build attribute table
-    arcpy.BuildRasterAttributeTable_management(r_in, "Overwrite")
+    arcpy.BuildRasterAttributeTable_management(r_in)
 
     # get unique values
     unique_vals = []
@@ -158,16 +155,12 @@ def extract_bits_from_band(raster_in, sensor, band, output_bands, basename,
             # generate new raster
             con_raster(raster_in, raster_out, output_vals)
 
-            # if running in ArcMap, load band to current Data Frame
-
     # use all output values to create single binary band
     if combine_layers:
         # create output raster name
         raster_out = basename + "_combine" + input_ext
 
         # generate new raster
-        #arcpy.AddMessage("Output: {0}".format(raster_out))
-        #arcpy.AddMessage("Params: {0}".format(output_vals_all))
         con_raster(raster_in, raster_out, output_vals_all)
 
         # if running in ArcMap, load band to current Data Frame

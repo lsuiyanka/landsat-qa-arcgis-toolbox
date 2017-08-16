@@ -104,6 +104,7 @@ class ExtractBands(object):
         param2.filter.type = "ValueList"
         param2.filter.list = ['BQA',
                               'pixel_qa',
+                              'radsat_qa'
                               'sr_aerosol',
                               'sr_cloud_qa']
 
@@ -160,11 +161,13 @@ class ExtractBands(object):
             if parameters[1].value == 'Landsat 8':
                 parameters[2].filter.list = ['BQA',
                                              'pixel_qa',
+                                             'radsat_qa',
                                              'sr_aerosol']
 
             elif parameters[1].value == 'Landsat 4-5, 7':
                 parameters[2].filter.list = ['BQA',
                                              'pixel_qa',
+                                             'radsat_qa',
                                              'sr_cloud_qa']
 
         # Change band in drop-down
@@ -175,6 +178,9 @@ class ExtractBands(object):
             elif [b for b in ['pixel_qa', 'PIXELQA'] if
                   b in parameters[0].valueAsText]:
                 parameters[2].value = 'pixel_qa'
+            elif [b for b in ['radsat_qa', 'RADSATQA'] if
+                  b in parameters[0].valueAsText]:
+                parameters[2].value = 'radsat_qa'
             elif [b for b in ['sr_aerosol', 'SRAEROSOLQA'] if
                   b in parameters[0].valueAsText]:
                 parameters[2].value = 'sr_aerosol'
