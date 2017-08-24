@@ -104,7 +104,7 @@ The result is a raster band (or multiple bands) assigned a `1` if the QA class i
 * If using non-standard (i.e., modified) file naming conventions, the tool may not correctly identify your band type, which may result in incorrect output products. Ensure the `sensor` and `band` categories are set accordingly.
 
 ## Notes
-* The QA decoding is performed using a lookup table of descriptions that correspond with each bit-packed value. This table is located in lookup_dict.py (in the Scripts folder.) The values are also described in the [Surface Reflectance QA web page](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment).
+* The QA decoding is performed using a lookup table with descriptions of each bit-packed value. This table is located in lookup_dict.py (in the Scripts folder.) The values are also described in the [Surface Reflectance QA web page](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment).
 
 ## Contributions
 If you wish to contribute feature requests, ideas, source code, or have a question regarding tool use, please submit them through this Github repository or [USGS User Services](https://landsat.usgs.gov/contact).
