@@ -112,45 +112,47 @@ def build_attr_table(raster_in, sensor, band):
                 # replace true_bits with filtered list
                 true_bits = tbo
 
-            # get description of each bit, and create output string
-            for tb in range(len(true_bits)):
-                k = next(key for key, value in bit_flags[band][sens].items()
-                         if value == true_bits[tb])
+            def get_label(bits):
+                """
+                Generate label for value in attribute table.
 
-                # TODO: add logic to remove 'low' shadow, snow/ice, cloud classifications
-                # TODO: NOTE - low aerosol should be flagged.
-                # TODO: NOTE - if all (BQA or PIXELQA) is 'low', label 'clear'
-                # If radsat_qa, handle differently to make display cleaner
-                if band == 'radsat_qa':
-                    if 'k' not in vars():
-                        desc = 'No Saturation'
+                :param bits: <list> List of True or False for bit position
+                :return: <str> Attribute label
+                """
+                if len(bits) == 0:
+                    if band == 'radsat_qa':
+                        return 'No Saturation'
+                    elif band == 'sr_cloud_qa' or band == 'sr_aerosol':
+                        return 'None'
+                    elif band == 'BQA':
+                        return 'Not Determined'
 
-                    else:
+                for tb in range(len(bits)):
+                    k = next(key for key, value in bit_flags[band][sens].items()
+                             if value == bits[tb])
+
+                    # If radsat_qa, handle differently to make display cleaner
+                    if band == 'radsat_qa':
                         if tb == 0:
                             desc = "Band {0} Data Saturation".format(
-                                true_bits[tb][0])
+                                bits[tb][0])
 
                         else:
                             desc = "{0},{1} Data Saturation".format(
-                                desc[:desc.find('Data')-1], true_bits[tb][0])
+                                desc[:desc.find('Data')-1], bits[tb][0])
 
-                # handle situations where no bits are selected
-                elif band == 'sr_cloud_qa' or band == 'sr_aerosol' and not k:
-                    desc = 'None'
-
-                elif band == 'BQA' and not k:
-                    desc = 'Not Determined'
-
-                # string creation for all other bands
-                else:
-                    if tb == 0:
-                        desc = "{0}".format(k)
+                    # string creation for all other bands
                     else:
-                        desc += ", {0}".format(k)
+                        if tb == 0:
+                            desc = "{0}".format(k)
+                        else:
+                            desc += ", {0}".format(k)
+
+                return desc
 
             # add desc to row description (row[1])
             try:
-                row[1] = desc
+                row[1] = get_label(true_bits)
             except UnboundLocalError:
                 row[1] = 'ERROR: bit read incorrectly'
 
