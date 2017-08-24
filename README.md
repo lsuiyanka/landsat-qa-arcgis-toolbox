@@ -94,7 +94,7 @@ The result is a raster band (or multiple bands) assigned a `1` if the QA class i
 *Graphical representation of a bit packed pixel_qa raster before (left) and extracted bands (right) the Extract QA Bands tool is run.*
 
 ### Tool-specific caveats
-* Extract QA Bands cannot be run on the radsat_qa band due to the numerous 
+* N/A
 
 ## Caveats
 * The toolbox was designed using ArcGIS version 10.4.1 and Python version 2.7.10. The functionality of the toolbox cannot be guaranteed for previous software versions, and cross-compatibility of newer and future ArcGIS and Python releases are subject to vendor discretion. 
