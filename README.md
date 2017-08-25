@@ -95,7 +95,7 @@ The result is a raster band (or multiple bands) assigned a `1` if the QA class i
 
 <img src="assets/graphic_extract.png" width="400">
 
-*Graphical representation of a bit packed pixel_qa raster before (left) and extracted bands (right) the Extract QA Bands tool is run.*
+*Graphical representation of a bit packed pixel_qa raster before (left) and after (right) the Extract QA Bands tool is run.*
 
 ### Tool-specific caveats
 * N/A
