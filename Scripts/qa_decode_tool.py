@@ -74,7 +74,15 @@ class DecodeQA(object):
                               'sr_aerosol',
                               'sr_cloud_qa']
 
-        params = [param0, param1, param2]
+        # Fourth parameter (keep or remove low)
+        param3 = arcpy.Parameter(
+            displayName="Remove low labels",
+            name="rm_low",
+            datatype="GPBoolean",
+            parameterType="Optional",
+            direction="Input")
+
+        params = [param0, param1, param2, param3]
         return params
 
     def updateParameters(self, parameters):
@@ -148,5 +156,6 @@ class DecodeQA(object):
         raster = parameters[0].valueAsText
         sensor = parameters[1].valueAsText
         band = parameters[2].valueAsText
+        rm_low = parameters[3].valueAsText
 
-        qa_decode.build_attr_table(raster, sensor, band)
+        qa_decode.build_attr_table(raster, sensor, band, rm_low)

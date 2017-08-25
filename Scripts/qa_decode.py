@@ -19,7 +19,7 @@ Changelog
 1.0     15 May 2017     Original development with Python 2.7.10 and
                         ArcGIS 10.4.1.
 1.1     09 Aug 2017     Update to handle any L8 pixel_qa terrain occlusion.
-1.2     21 Aug 2017     Added ability to unpack bits to individual files.
+1.2     21 Aug 2017     Now decodes bits directly, instead of lookup table.
 """
 import sys
 import os
@@ -27,13 +27,15 @@ import arcpy
 import lookup_dict
 
 
-def build_attr_table(raster_in, sensor, band):
+def build_attr_table(raster_in, sensor, band, rm_low=False):
     """
     Build attribute table for thematic raster using pre-defined dictionary.
 
     :param raster_in: <str> Path to target raster.
     :param sensor: <str> Sensor type.
     :param band: <str> Band type.
+    :param rm_low: <bool> Remove (True) or keep (False) 'low' values (excludes
+                          sr_aerosol, radiometric sat. in BQA)
     :return:
     """
     # read lookup dictionary
@@ -122,31 +124,55 @@ def build_attr_table(raster_in, sensor, band):
                 if len(bits) == 0:
                     if band == 'radsat_qa':
                         return 'No Saturation'
+
                     elif band == 'sr_cloud_qa' or band == 'sr_aerosol':
                         return 'None'
+
                     elif band == 'BQA':
                         return 'Not Determined'
 
-                for tb in range(len(bits)):
-                    k = next(key for key, value in bit_flags[band][sens].items()
-                             if value == bits[tb])
+                # build description from all bits represented in value
+                desc = []
+                for tb in bits:
+                    k = next(key for key, value in
+                             bit_flags[band][sens].items() if value == tb)
 
-                    # If radsat_qa, handle differently to make display cleaner
+                    # if 'low' labels are disabled, do not add them here
+                    if rm_low and band != 'BQA' and 'low' in k.lower():
+                        continue
+
+                    # if last check, and not radiometric sat, set to 'clear'
+                    elif rm_low and band == 'BQA' and 'low' in k.lower() and \
+                                    tb == bits[-1] and \
+                                    'radiometric' not in k.lower() and \
+                            not desc:
+                        k = 'Clear'
+
+                    # if BQA and bit is low radiometric sat, keep it
+                    elif rm_low and band == 'BQA' and 'low' in k.lower():
+                        if 'radiometric' not in k.lower():
+                            continue
+
+                    # if radsat_qa, handle differently to make display cleaner
                     if band == 'radsat_qa':
-                        if tb == 0:
-                            desc = "Band {0} Data Saturation".format(
-                                bits[tb][0])
+                        if not desc:
+                            desc = "Band {0} Data Saturation".format(tb[0])
 
                         else:
                             desc = "{0},{1} Data Saturation".format(
-                                desc[:desc.find('Data')-1], bits[tb][0])
+                                desc[:desc.find('Data') - 1], tb[0])
 
                     # string creation for all other bands
                     else:
-                        if tb == 0:
+                        if not desc:
                             desc = "{0}".format(k)
+
                         else:
                             desc += ", {0}".format(k)
+
+                # final check to make sure something was set
+                if not desc:
+                    desc = 'ERROR: bit set incorrectly'
 
                 return desc
 
