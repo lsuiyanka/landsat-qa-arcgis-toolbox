@@ -1,7 +1,7 @@
 # Landsat Quality Assessment (QA) ArcGIS Toolbox
 Quality Assessment (QA) bands are a helpful resource for evaluating the overall usefulness of a Landsat pixel. Each pixel in the QA band contains an integer value that represents bit packed combinations of surface, atmospheric, and sensor conditions that can affect the individual pixel quality. QA bands are currently provided with Collection 1 based products, including Landsat [Level-1 Standard Data Products](https://landsat.usgs.gov/landsat-level-1-standard-data-products) and [Higher Level Science Data Products](https://landsat.usgs.gov/landsat-higher-level-science-data-products). 
 
-The Landsat QA ArcGIS Toolbox provides functionality to classify bit packed values for Level-1 and Higher-Level QA bands, which enhance the applications of interpretation, mapping and applying QA values to Landsat data products.  Another set of tools is the [Landsat Quality Assessment (QA) Tools](https://landsat.usgs.gov/landsat-qa-tools), which provides the functionality of extracting bit packed values to individual bands.  
+The Landsat QA ArcGIS Toolbox provides functionality to classify and/or extract bit packed values for Level-1 and Higher-Level QA bands, which enhance the applications of interpretation, mapping and applying QA values to Landsat data products.  Another set of tools is the [Landsat Quality Assessment (QA) Tools](https://landsat.usgs.gov/landsat-qa-tools), which provides the functionality of extracting bit packed values to individual bands, but only for the Level-1 BQA band.  
 
 The instructions below detail how to download and install the tools, as well as information on the QA bands and how the tools operate on each band. The limitations of the tools are provided in the caveats section.
 
@@ -17,10 +17,13 @@ See git tag [1.2]
 * Modified lookup_dict.py to contain only bit-wise interpretations.
     * Value-wise interpretations can still be viewed in tags [1.0](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/tree/1.0), [1.1](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/tree/1.1), and/or the [Surface Reflectance QA web page](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment).
 * Modified qa_decode.py to use bit-wise interpretations. 
+* Modified qa_decode.py and qa_decode_tool.py to optionally exclude labels coded as "low", with the exception of "low radiometric saturation" in BQA.
+    * Updated Landsat_QA_ArcGIS_Tools.DecodeQA.pyt.xml (documentation for "low" removal option.)
 * Addition of *Extract QA Bands* tool.
     * Added extract_bands.py and extract_bands_tool.py to allow users to make individual bands from bit-packed layers.
     * Added Landsat_QA_ArcGIS_Tools.ExtractBands.pyt.xml (documentation for new tool.)
     * Updated Landsat_QA_ArcGIS_Tools.pyt to add new tool to interface.
+* Updated README to reflect changes, which includes updates to graphics.     
 
 
 ## Download
@@ -73,7 +76,7 @@ The result is a raster band displayed with each QA bit value as a unique value, 
 
 ### Tool-specific caveats
 * If an attribute table already exists for the target raster, it will be overwritten by the Decode QA tool.
-
+* In the BQA band, if all non-saturation labels are set to "low", the final label is set as "Clear", even though BQA does not explicitly have a "clear" bit. Please see [Landsat Collection 1 Level-1 Quality Assessment Band webpage](https://landsat.usgs.gov/collectionqualityband) for details.
 
 ## Tool: Extract QA Bands
 The "Extract QA Bands" tool performs the following steps:
