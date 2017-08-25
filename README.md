@@ -43,7 +43,7 @@ The Landsat QA ArcGIS Toolbox is compatible with all Landsat Level-1 and Higher-
 | --- | --- | --- | --- | --- |
 | BQA         | Level-1      | Standard Level-1 Proudct | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/collectionqualityband |
 | pixel_qa    | Higher-Level | TOA, SI, SR             | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
-| radsat_qa   | Higher-Level | TOA, SI, SR             | [Decode QA](#tool-decode-qa) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
+| radsat_qa   | Higher-Level | TOA, SI, SR             | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
 | sr_cloud_qa | Higher-Level | Landsat 4-7 SR (LEDAPS) | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
 | sr_aerosol  | Higher-Level | Landsat 8 SR (LaSRC)    | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
 
@@ -55,8 +55,9 @@ The “Decode QA” tool performs the following steps:
 
 1. Builds an attribute table containing all unique values in the QA band, 
 2. Writes a description (“Descr”) column in the attribute table,
-3. Assigns a description of each bit value in the table, and
-4. (ArcMap only) loads the band into Table of Contents in the active data frame.
+3. Assigns a description of each bit value in the table,
+4. (ArcMap only) loads the band into Table of Contents in the active data frame, and
+5. Optionally removes "low" labels, with the exception of "low radiometric saturation" for BQA. In all other QA tests, "low" denotes the least probable outcome of a test, therefore it may be undesirable for visualization purposes.
 
 An example of the graphical user interface is provided below.
 
@@ -104,7 +105,7 @@ The result is a raster band (or multiple bands) assigned a `1` if the QA class i
 * If using non-standard (i.e., modified) file naming conventions, the tool may not correctly identify your band type, which may result in incorrect output products. Ensure the `sensor` and `band` categories are set accordingly.
 
 ## Notes
-* The QA decoding is performed using a lookup table with descriptions of each bit-packed value. This table is located in lookup_dict.py (in the Scripts folder.) The values are also described in the [Surface Reflectance QA web page](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment).
+* The QA decoding is performed using a lookup table with descriptions of each bit-packed value. This table is located in [lookup_dict.py](./Scripts/lookup_dict.py). The values are also described in the [Surface Reflectance QA web page](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment).
 
 ## Contributions
 If you wish to contribute feature requests, ideas, source code, or have a question regarding tool use, please submit them through this Github repository or [USGS User Services](https://landsat.usgs.gov/contact).
