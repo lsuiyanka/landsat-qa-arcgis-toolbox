@@ -76,7 +76,7 @@ The result is a raster band displayed with each QA bit value as a unique value, 
 
 ### Tool-specific caveats
 * If an attribute table already exists for the target raster, it will be overwritten by the Decode QA tool.
-* In the BQA band, if all non-saturation labels are set to "low", the final label is set as "Clear", even though BQA does not explicitly have a "clear" bit. Please see [Landsat Collection 1 Level-1 Quality Assessment Band webpage](https://landsat.usgs.gov/collectionqualityband) for details.
+* In the BQA band, if all non-saturation labels are set to "low", and the "Remove low labels" option is checked, then the final label is set as "Clear", even though BQA does not explicitly have a "clear" bit. Please see [Landsat Collection 1 Level-1 Quality Assessment Band webpage](https://landsat.usgs.gov/collectionqualityband) for details.
 
 ## Tool: Extract QA Bands
 The "Extract QA Bands" tool performs the following steps:
