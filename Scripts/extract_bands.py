@@ -75,12 +75,13 @@ def extract_bits_from_band(raster_in, sensor, band, output_bands, basename,
             return str_out
 
         # use conditional function to make binary raster
-        if len(build_con_statement(out_values)) == 0:  # Solution to Extracting non-existing pixels issue
-            out = arcpy.sa.Con(in_raster, 0, 1, build_con_statement(out_values))
+        if len(build_con_statement(out_values)) == 0:
+            # if out_values is empty, set all pixels to zero
+            out = arcpy.sa.Con(in_raster, 0)
         else:
             out = arcpy.sa.Con(in_raster, 1, 0, build_con_statement(out_values))
 
-            # set pixel depth to 8-bit unsigned and save to file
+        # set pixel depth to 8-bit unsigned and save to file
         arcpy.CopyRaster_management(out, out_raster,
                                     pixel_type="8_BIT_UNSIGNED")
 
@@ -138,20 +139,22 @@ def extract_bits_from_band(raster_in, sensor, band, output_bands, basename,
         bit_bool = []
         for v in unique_vals:
             if len(bit_value) == 1:  # single bit
-                #Check if the bit value exist in other dictionary elements
+                # copy the dictionary and remove the desired single bit element
                 temp_bit_flags = deepcopy(bit_flags[band][sensor])
                 del temp_bit_flags[bv]
+                # search the rest of dictionary and see if the desired bit exists in other elements (2-bit attribute)
                 two_bit_elem = bit_value[0] in [p for q in temp_bit_flags.values() for p in q]
                 if two_bit_elem:
+                    # if the bit exist in a 2-bit element check the status of the adjacent bit
                     for flags, value in bit_flags[band][sensor].iteritems():
+                        # if previous bit is 1 then pass
                         if value == [bit_value[0]-1,bit_value[0]]:
-                            #print flags
                             if v & 1 << (bit_value[0]-1) > 0: # Check the neighbour bit
                                 pass
                             else:
                                 bit_bool.append(v & 1 << bit_value[0] > 0)
+                        # if next bit is 1 then pass
                         elif value == [bit_value[0],bit_value[0]+1]:
-                            #print flags
                             if v & 1 << (bit_value[0]+1) > 0: # Check the neighbour bit
                                 pass
                             else:
