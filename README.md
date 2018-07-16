@@ -8,10 +8,10 @@ The instructions below detail how to download and install the tools, as well as 
 **Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.**
 
 
-## Version 1.2 Release Notes
-Release Date: August 2017
+## Version 1.3 Release Notes
+Release Date: July 2018
 
-See git tag [1.2]
+See git tag [1.3]
 
 ### Changes
 * Modified lookup_dict.py to contain only bit-wise interpretations.

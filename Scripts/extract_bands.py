@@ -145,15 +145,15 @@ def extract_bits_from_band(raster_in, sensor, band, output_bands, basename,
                 # search the rest of dictionary and see if the desired bit exists in other elements (2-bit attribute)
                 two_bit_elem = bit_value[0] in [p for q in temp_bit_flags.values() for p in q]
                 if two_bit_elem:
-                    # if the bit exist in a 2-bit element check the status of the adjacent bit
+                    # if the bit exists in a 2-bit element, check the status of the adjacent bit
                     for flags, value in bit_flags[band][sensor].iteritems():
-                        # if previous bit is 1 then pass
+                        # if previous bit is 1, then pass
                         if value == [bit_value[0]-1,bit_value[0]]:
                             if v & 1 << (bit_value[0]-1) > 0: # Check the neighbour bit
                                 pass
                             else:
                                 bit_bool.append(v & 1 << bit_value[0] > 0)
-                        # if next bit is 1 then pass
+                        # if next bit is 1, then pass
                         elif value == [bit_value[0],bit_value[0]+1]:
                             if v & 1 << (bit_value[0]+1) > 0: # Check the neighbour bit
                                 pass
