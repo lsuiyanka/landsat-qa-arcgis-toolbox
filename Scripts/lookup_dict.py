@@ -20,6 +20,14 @@ Changelog
                         ArcGIS 10.4.1.
 1.1     09 Aug 2017     Update to handle any L8 pixel_qa terrain occlusion.
 1.2     21 Aug 2017     Removed lookup table, added bit flags.
+
+Modified July 2018
+Saeed Arab
+sarab@contractor.usgs.gov
+
+Changelog:
+Updated L8 sr_aerosol dict contents with regards to the LaSRC updates.
+Added "Medium Cirrus Confidence" for pixel_qa of L8
 """
 bit_flags = {
     "pixel_qa": {
@@ -45,6 +53,7 @@ bit_flags = {
             "Medium Cloud Confidence": [7],
             "High Cloud Confidence": [6, 7],
             "Low Cirrus Confidence": [8],
+            "Medium Cirrus Confidence": [9],
             "High Cirrus Confidence": [8, 9],
             "Terrain Occlusion": [10]
         }
@@ -125,9 +134,11 @@ bit_flags = {
     "sr_aerosol": {
         "L8": {
             "Fill": [0],
-            "Aerosol Retrieval - Valid": [1],
-            "Aerosol Retrieval - Interpolated": [2],
-            "Water": [3],
+            "Valid Aerosol Retrieval": [1],
+            "Water": [2],
+            "Cloud or Cirrus": [3],
+            "Cloud Shadow": [4],
+            "Interpolated Aerosol Retrieval": [5],
             "Low Aerosol": [6],
             "Medium Aerosol": [7],
             "High Aerosol": [6, 7]
