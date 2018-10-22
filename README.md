@@ -1,9 +1,11 @@
 # Landsat Quality Assessment (QA) ArcGIS Toolbox
-Quality Assessment (QA) bands are a helpful resource for evaluating the overall usefulness of a Landsat pixel. Each pixel in the QA band contains an integer value that represents bit packed combinations of surface, atmospheric, and sensor conditions that can affect the individual pixel quality. QA bands are currently provided with Collection 1 based products, including Landsat [Level-1 Standard Data Products](https://landsat.usgs.gov/landsat-level-1-standard-data-products) and [Higher Level Science Data Products](https://landsat.usgs.gov/landsat-higher-level-science-data-products). 
+Quality Assessment (QA) information is a helpful resource for evaluating the overall usefulness of a Landsat pixel. Each pixel in the QA band contains an integer value that represents bit-packed combinations of surface, atmospheric, and sensor conditions that can affect the individual pixel quality. QA bands are delivered with [Landsat Collection 1 Level-1] (https://landsat.usgs.gov/landsat-collections) and [Landsat Level-2 and Level-3 Science](https://landsat.usgs.gov/landsat-science-data-products) data products. 
 
-The Landsat QA ArcGIS Toolbox provides functionality to classify and/or extract bit packed values for Level-1 and Higher-Level QA bands, which enhance the applications of interpretation, mapping and applying QA values to Landsat data products.  Another set of tools is the [Landsat Quality Assessment (QA) Tools](https://landsat.usgs.gov/landsat-qa-tools), which provides the functionality of extracting bit packed values to individual bands, but only for the Level-1 BQA band.  
+The Landsat QA ArcGIS Toolbox contains functionality to classify and/or extract bit-packed values for QA bands, which enhance the applications of interpretation, mapping and applying QA values to Landsat data products.
 
-The instructions below detail how to download and install the tools, as well as information on the QA bands and how the tools operate on each band. The limitations of the tools are provided in the caveats section.
+Note: The [Landsat Quality Assessment (QA) Tools](https://landsat.usgs.gov/landsat-qa-tools) also contain the functionality of extracting bit-packed values to individual bands, but only for Level-1 QA information.
+
+Follow the instructions below to download and install the tools. Information on the QA bands and how the tools operate on each band is also provided. The limitations of the tools are noted in the caveats section.
 
 **Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.**
 
@@ -15,7 +17,7 @@ See git tag [1.3]
 
 ### Changes
 * Modified lookup_dict.py to contain only bit-wise interpretations.
-    * Value-wise interpretations can still be viewed in tags [1.0](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/tree/1.0), [1.1](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/tree/1.1), and/or the [Surface Reflectance QA web page](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment).
+    * Value-wise interpretations can still be viewed in tags [1.0](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/tree/1.0), [1.1](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/tree/1.1), and/or the [Landsat Surface Reflectance QA](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment) web page.
 * Modified qa_decode.py to use bit-wise interpretations. 
 * Modified qa_decode.py and qa_decode_tool.py to optionally exclude labels coded as "low", with the exception of "low radiometric saturation" in BQA.
     * Updated Landsat_QA_ArcGIS_Tools.DecodeQA.pyt.xml (documentation for "low" removal option.)
@@ -27,7 +29,7 @@ See git tag [1.3]
 
 
 ## Download
-The Landsat QA ArcGIS Toolbox can be downloaded from [here](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/archive/master.zip).
+The Landsat QA ArcGIS Toolbox can be downloaded [here](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/archive/master.zip).
 
 
 ## Installation
@@ -40,17 +42,17 @@ The Landsat QA ArcGIS Toolbox can be installed using the following steps:
 
 
 ## Compatible Products
-The Landsat QA ArcGIS Toolbox is compatible with all Landsat Level-1 and Higher-Level QA bands. Below is a brief description of each band’s properties:
+The Landsat QA ArcGIS Toolbox is compatible with all Landsat Level-1 and Science Product QA bands. Below is a brief description of each band’s properties:
 
 | Band | Source | Product | Tool Support | Product Page |
 | --- | --- | --- | --- | --- |
-| BQA         | Level-1      | Standard Level-1 Proudct | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/collectionqualityband |
-| pixel_qa    | Higher-Level | TOA, SI, SR             | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
-| radsat_qa   | Higher-Level | TOA, SI, SR             | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
-| sr_cloud_qa | Higher-Level | Landsat 4-7 SR (LEDAPS) | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
-| sr_aerosol  | Higher-Level | Landsat 8 SR (LaSRC)    | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
+| BQA         | Level-1      | Level-1 Proudct | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/collectionqualityband |
+| pixel_qa    | Science Products | TOA, SI, SR             | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
+| radsat_qa   | Science Products | TOA, SI, SR             | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
+| sr_cloud_qa | Science Products | Landsat 4-7 SR (LEDAPS) | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
+| sr_aerosol  | Science Products | Landsat 8 SR (LaSRC)    | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
 
-*BQA Level-1 Quality Assurance Band File, LaSRC Landsat Surface Reflectance Code, LEDAPS Landsat Ecosystem Disturbance Adapative Processing System, SI Spectral Indices, SR Surface Reflectance, TOA Top of Atmosphere Reflectance*
+*BQA Level-1 Quality Assessment Band File, LaSRC Landsat Surface Reflectance Code, LEDAPS Landsat Ecosystem Disturbance Adaptive Processing System, SI Spectral Indices, SR Surface Reflectance, TOA Top of Atmosphere Reflectance*
 
 
 ## Tool: Decode QA
@@ -76,7 +78,7 @@ The result is a raster band displayed with each QA bit value as a unique value, 
 
 ### Tool-specific caveats
 * If an attribute table already exists for the target raster, it will be overwritten by the Decode QA tool.
-* In the BQA band, if all non-saturation labels are set to "low", and the "Remove low labels" option is checked, then the final label is set as "Clear", even though BQA does not explicitly have a "clear" bit. Please see [Landsat Collection 1 Level-1 Quality Assessment Band webpage](https://landsat.usgs.gov/collectionqualityband) for details.
+* In the BQA band, if all non-saturation labels are set to "low", and the "Remove low labels" option is checked, then the final label is set as "Clear", even though BQA does not explicitly have a "clear" bit. Please see the [Landsat Collection 1 Level-1 Quality Assessment Band](https://landsat.usgs.gov/collectionqualityband) web page for details.
 
 ## Tool: Extract QA Bands
 The "Extract QA Bands" tool performs the following steps:
@@ -95,7 +97,7 @@ The result is a raster band (or multiple bands) assigned a `1` if the QA class i
 
 <img src="assets/graphic_extract.png" width="400">
 
-*Graphical representation of a bit packed pixel_qa raster before (left) and after (right) the Extract QA Bands tool is run.*
+*Graphical representation of a bit-packed pixel_qa raster before (left) and after (right) the Extract QA Bands tool is run.*
 
 ### Tool-specific caveats
 * N/A
@@ -108,7 +110,7 @@ The result is a raster band (or multiple bands) assigned a `1` if the QA class i
 * If using non-standard (i.e., modified) file naming conventions, the tool may not correctly identify your band type, which may result in incorrect output products. Ensure the `sensor` and `band` categories are set accordingly.
 
 ## Notes
-* The QA decoding is performed using a lookup table with descriptions of each bit-packed value. This table is located in [lookup_dict.py](./Scripts/lookup_dict.py). The values are also described in the [Surface Reflectance QA web page](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment).
+* The QA decoding is performed using a lookup table with descriptions of each bit-packed value. This table is located in [lookup_dict.py](./Scripts/lookup_dict.py). The values are also described in the [Surface Reflectance QA](https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment) web page.
 
 ## Contributions
 If you wish to contribute feature requests, ideas, source code, or have a question regarding tool use, please submit them through this Github repository or [USGS User Services](https://landsat.usgs.gov/contact).
@@ -116,4 +118,4 @@ If you wish to contribute feature requests, ideas, source code, or have a questi
 ## Citation
 Please use the following citation when referencing this software:
 
-`U.S. Geological Survey, 2017. Landsat Quality Assurance ArcGIS Toolbox. U.S. Geological Survey software release. doi:10.5066/F7JM284N.`
+`U.S. Geological Survey, 2017. Landsat Quality Assessment ArcGIS Toolbox. U.S. Geological Survey software release. doi:10.5066/F7JM284N.`
