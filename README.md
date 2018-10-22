@@ -1,5 +1,5 @@
 # Landsat Quality Assessment (QA) ArcGIS Toolbox
-Quality Assessment (QA) information is a helpful resource for evaluating the overall usefulness of a Landsat pixel. Each pixel in the QA band contains an integer value that represents bit-packed combinations of surface, atmospheric, and sensor conditions that can affect the individual pixel quality. QA bands are delivered with [Landsat Collection 1 Level-1] (https://landsat.usgs.gov/landsat-collections) and [Landsat Level-2 and Level-3 Science](https://landsat.usgs.gov/landsat-science-data-products) data products. 
+Quality Assessment (QA) information is a helpful resource for evaluating the overall usefulness of a Landsat pixel. Each pixel in the QA band contains an integer value that represents bit-packed combinations of surface, atmospheric, and sensor conditions that can affect the individual pixel quality. QA bands are delivered with [Landsat Collection 1 Level-1](https://landsat.usgs.gov/landsat-collections) and [Landsat Level-2 and Level-3 Science](https://landsat.usgs.gov/landsat-science-data-products) data products. 
 
 The Landsat QA ArcGIS Toolbox contains functionality to classify and/or extract bit-packed values for QA bands, which enhance the applications of interpretation, mapping and applying QA values to Landsat data products.
 
