@@ -13,7 +13,7 @@ Follow the instructions below to download and install the tools. Information on 
 ## Version 1.3 Release Notes
 Release Date: July 2018
 
-See git tag [1.3]
+See git tag [1.3](https://github.com/USGS-EROS/landsat-qa-arcgis-toolbox/tree/1.3)
 
 ### Changes
 * Modified lookup_dict.py to contain only bit-wise interpretations.
