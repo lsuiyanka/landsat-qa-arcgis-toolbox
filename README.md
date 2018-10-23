@@ -46,7 +46,7 @@ The Landsat QA ArcGIS Toolbox is compatible with all Landsat Level-1 and Science
 
 | Band | Source | Product | Tool Support | Product Page |
 | --- | --- | --- | --- | --- |
-| BQA         | Level-1      | Level-1 Proudct | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/collectionqualityband |
+| BQA         | Level-1      | Level-1 Product | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/collectionqualityband |
 | pixel_qa    | Science Products | TOA, SI, SR             | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
 | radsat_qa   | Science Products | TOA, SI, SR             | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
 | sr_cloud_qa | Science Products | Landsat 4-7 SR (LEDAPS) | [Decode QA](#tool-decode-qa), [Extract QA Bands](#tool-extract-qa-bands) | https://landsat.usgs.gov/landsat-surface-reflectance-quality-assessment |
